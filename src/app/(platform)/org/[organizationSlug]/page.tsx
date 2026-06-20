@@ -79,18 +79,18 @@ export default function OrganizationDashboardPage() {
   return (
     <div className="space-y-6">
       {/* Banner Title */}
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">داشبورد سازمان ({slug})</h2>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="min-w-0">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight break-words">داشبورد سازمان ({slug})</h2>
           <p className="text-sm text-muted-foreground">
             به سامانه پایش و کنترل معماری تروفلو خوش آمدید.
           </p>
         </div>
-        
+
         {/* Jalali Utility Demo */}
-        <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm">
-          <Calendar className="h-4 w-4 text-blue-500" />
-          <span>امروز شمسی: {toJalaliDate(new Date())}</span>
+        <div className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs sm:text-sm font-medium text-muted-foreground shadow-sm whitespace-nowrap">
+          <Calendar className="h-4 w-4 text-blue-500 shrink-0" />
+          <span className="truncate">امروز شمسی: {toJalaliDate(new Date())}</span>
         </div>
       </div>
 

@@ -19,6 +19,8 @@ import {
   Building,
   Activity,
   FileText,
+  Menu,
+  X,
 } from "lucide-react";
 import Image from "next/image";
 import Logo from "../../public/logo.png";
@@ -31,6 +33,8 @@ interface FAQItem {
 export default function LandingPage() {
   // Accordion State
   const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null);
+  // Mobile menu state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleFAQ = (index: number) => {
     setOpenFAQIndex(openFAQIndex === index ? null : index);
@@ -108,8 +112,67 @@ export default function LandingPage() {
                 شروع رایگان
               </Button>
             </Link>
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+            <nav className="container mx-auto px-4 py-4 space-y-3">
+              <a
+                href="#features"
+                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                ویژگی‌ها
+              </a>
+              <a
+                href="#workflow"
+                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                مراحل کاربری
+              </a>
+              <a
+                href="#rbac"
+                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                مدیریت دسترسی
+              </a>
+              <a
+                href="#pricing"
+                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                تعرفه‌ها
+              </a>
+              <a
+                href="#faq"
+                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                سوالات متداول
+              </a>
+              <div className="pt-3 border-t border-border">
+                <Link
+                  href="/login"
+                  className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  ورود
+                </Link>
+              </div>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* 2. HERO SECTION */}
@@ -292,13 +355,13 @@ export default function LandingPage() {
           {/* Timeline Layout */}
           <div className="relative mx-auto max-w-4xl before:absolute before:inset-0 before:right-1/2 before:w-[2px] before:bg-border before:hidden md:before:block">
             {/* Step 1 */}
-            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-12 md:mb-16">
+            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-10 md:mb-16">
               <div className="hidden md:block w-5/12 text-left pl-8"></div>
-              <div className="absolute right-1/2 translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm">
+              <div className="md:absolute md:right-1/2 md:translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm mb-4 md:mb-0 shrink-0">
                 ۱
               </div>
-              <div className="w-full md:w-5/12 pr-0 md:pr-8 bg-card border border-border p-6 rounded-xl shadow-sm">
-                <h3 className="text-lg font-bold mb-2">ثبت نام و ایجاد سازمان</h3>
+              <div className="w-full md:w-5/12 pr-0 md:pr-8 bg-card border border-border p-5 sm:p-6 rounded-xl shadow-sm">
+                <h3 className="text-base sm:text-lg font-bold mb-2">ثبت نام و ایجاد سازمان</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   ابتدا حساب کاربری خود را ایجاد کرده و مشخصات سازمان (مانند عنوان، حوزه فعالیت و
                   شناسه یکتای پیوند) را وارد نمایید.
@@ -307,28 +370,28 @@ export default function LandingPage() {
             </div>
 
             {/* Step 2 */}
-            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-12 md:mb-16">
-              <div className="w-full md:w-5/12 pl-0 md:pl-8 bg-card border border-border p-6 rounded-xl shadow-sm mb-4 md:mb-0">
-                <h3 className="text-lg font-bold mb-2">دعوت از اعضا و تشکیل دپارتمان‌ها</h3>
+            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-10 md:mb-16">
+              <div className="w-full md:w-5/12 pl-0 md:pl-8 bg-card border border-border p-5 sm:p-6 rounded-xl shadow-sm order-2 md:order-1">
+                <h3 className="text-base sm:text-lg font-bold mb-2">دعوت از اعضا و تشکیل دپارتمان‌ها</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   ایمیل پرسنل خود را ثبت کنید تا دعوت‌نامه ورود دریافت کنند. سپس بخش‌های مختلف فنی،
                   فروش یا منابع انسانی را ایجاد کنید.
                 </p>
               </div>
-              <div className="absolute right-1/2 translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm">
+              <div className="md:absolute md:right-1/2 md:translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm mb-4 md:mb-0 shrink-0 order-1 md:order-2">
                 ۲
               </div>
-              <div className="hidden md:block w-5/12 text-right pr-8"></div>
+              <div className="hidden md:block w-5/12 text-right pr-8 order-3"></div>
             </div>
 
             {/* Step 3 */}
-            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-12 md:mb-16">
+            <div className="relative flex flex-col md:flex-row items-center md:justify-between mb-10 md:mb-16">
               <div className="hidden md:block w-5/12 text-left pl-8"></div>
-              <div className="absolute right-1/2 translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm">
+              <div className="md:absolute md:right-1/2 md:translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm mb-4 md:mb-0 shrink-0">
                 ۳
               </div>
-              <div className="w-full md:w-5/12 pr-0 md:pr-8 bg-card border border-border p-6 rounded-xl shadow-sm">
-                <h3 className="text-lg font-bold mb-2">پیکربندی نقش‌ها و دسترسی‌ها</h3>
+              <div className="w-full md:w-5/12 pr-0 md:pr-8 bg-card border border-border p-5 sm:p-6 rounded-xl shadow-sm">
+                <h3 className="text-base sm:text-lg font-bold mb-2">پیکربندی نقش‌ها و دسترسی‌ها</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   با استفاده از سیستم قدرتمند RBAC، نقش‌های پرسنل را تنظیم کنید تا فقط به پنل‌های
                   مجاز و دپارتمان خود دسترسی داشته باشند.
@@ -338,17 +401,17 @@ export default function LandingPage() {
 
             {/* Step 4 */}
             <div className="relative flex flex-col md:flex-row items-center md:justify-between">
-              <div className="w-full md:w-5/12 pl-0 md:pl-8 bg-card border border-border p-6 rounded-xl shadow-sm">
-                <h3 className="text-lg font-bold mb-2">شروع کار چابک و گزارش‌گیری</h3>
+              <div className="w-full md:w-5/12 pl-0 md:pl-8 bg-card border border-border p-5 sm:p-6 rounded-xl shadow-sm order-2 md:order-1">
+                <h3 className="text-base sm:text-lg font-bold mb-2">شروع کار چابک و گزارش‌گیری</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   تسک‌ها را ارجاع دهید، درخواست‌های حضور و غیاب پرسنل را پاسخگو باشید و در انتهای
                   ماه فیش‌های حقوقی پرسنل را صادر کنید.
                 </p>
               </div>
-              <div className="absolute right-1/2 translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm">
+              <div className="md:absolute md:right-1/2 md:translate-x-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold text-sm mb-4 md:mb-0 shrink-0 order-1 md:order-2">
                 ۴
               </div>
-              <div className="hidden md:block w-5/12 text-right pr-8"></div>
+              <div className="hidden md:block w-5/12 text-right pr-8 order-3"></div>
             </div>
           </div>
         </div>
@@ -501,7 +564,7 @@ export default function LandingPage() {
             </div>
 
             {/* Mockup Content - Sidebar & Main */}
-            <div className="flex h-[400px] md:h-[450px] overflow-hidden text-sm">
+            <div className="flex h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] overflow-hidden text-sm">
               {/* Sidebar */}
               <div className="w-1/4 border-l border-border bg-muted/20 p-4 hidden sm:block space-y-4">
                 <div className="flex items-center gap-2 font-bold mb-6">

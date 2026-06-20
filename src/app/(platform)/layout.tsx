@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { authService } from "@/features/auth/services/auth.service";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { LogOut, LayoutDashboard, Settings, User } from "lucide-react";
+import { LogOut, LayoutDashboard, Settings, User, Menu, X } from "lucide-react";
 
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { user, isAuthenticated, isLoading } = useAuthStore();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     authService.checkSession();
@@ -39,8 +40,26 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background text-foreground" dir="rtl">
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="md:hidden fixed top-4 right-4 z-50 p-2 bg-card border border-border rounded-lg shadow-lg"
+      >
+        {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+      </button>
+
+      {/* Mobile Sidebar Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar - Positioned on the right for RTL layout */}
-      <aside className="hidden w-64 border-l border-border bg-card md:flex md:flex-col">
+      <aside className={`fixed inset-y-0 right-0 z-50 w-64 border-l border-border bg-card transform transition-transform duration-300 ease-in-out md:relative md:transform-none ${
+        mobileMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+      } md:flex md:flex-col`}>
         {/* Brand Header */}
         <div className="flex h-16 items-center gap-2 border-b border-border px-6 font-bold text-xl">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
@@ -86,7 +105,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
       {/* Main Container */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6">
+        <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6 md:px-6">
           <div className="font-semibold text-lg text-muted-foreground">
             سامانه مدیریت منابع سازمانی TrueFlow
           </div>
@@ -96,7 +115,7 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
         </header>
 
         {/* Content Pane */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-muted/10">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-muted/10">
           {children}
         </main>
       </div>
